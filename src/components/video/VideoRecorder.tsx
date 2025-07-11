@@ -13,6 +13,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
   const [recordingTime, setRecordingTime] = useState(0);
   const [permission, setPermission] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
+  const [isPaused, setIsPaused] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -38,11 +39,20 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
     }
   };
 
+  // useEffect(() => {
+  //   getCameraPermission();
+  //   return () => {
+  //     if (stream) {
+  //       stream.getTracks().forEach(track => track.stop());
+  //     }
+  //     if (timerRef.current) {
+  //       clearInterval(timerRef.current);
+  //     }
+  //   };
+  // }, []);
+
   useEffect(() => {
-    getCameraPermission();
-    
     return () => {
-      // Clean up resources when component unmounts
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
@@ -50,66 +60,83 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
         clearInterval(timerRef.current);
       }
     };
-  }, []);
+  }, [stream]);
 
   const startRecording = () => {
     if (!stream) return;
-    
     chunksRef.current = [];
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
-    
     mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) {
         chunksRef.current.push(e.data);
       }
     };
-    
     mediaRecorder.onstop = () => {
       const blob = new Blob(chunksRef.current, { type: 'video/webm' });
       const url = URL.createObjectURL(blob);
       setVideoBlob(blob);
       setVideoUrl(url);
-      
       if (videoRef.current) {
         videoRef.current.srcObject = null;
         videoRef.current.src = url;
         videoRef.current.controls = true;
       }
     };
-    
+    mediaRecorder.onpause = () => setIsPaused(true);
+    mediaRecorder.onresume = () => setIsPaused(false);
     mediaRecorder.start();
     setIsRecording(true);
+    setIsPaused(false);
     setRecordingTime(0);
-    
-    // Start timer
     timerRef.current = window.setInterval(() => {
       setRecordingTime(prev => prev + 1);
     }, 1000);
+  };
+
+  const pauseRecording = () => {
+    if (mediaRecorderRef.current && isRecording && !isPaused) {
+      mediaRecorderRef.current.pause();
+    }
+  };
+
+  const resumeRecording = () => {
+    if (mediaRecorderRef.current && isRecording && isPaused) {
+      mediaRecorderRef.current.resume();
+    }
   };
 
   const stopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      
       if (timerRef.current) {
         clearInterval(timerRef.current);
       }
+      // Ne pas stopper les tracks ici !
+      // On garde la caméra active pour la prévisualisation
     }
   };
 
   const saveVideo = () => {
     if (videoBlob && videoUrl) {
       onVideoSaved(videoBlob, videoUrl);
+      // Stopper la caméra après sauvegarde
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        setStream(null);
+        setPermission(false);
+      }
     }
   };
 
   const resetRecording = () => {
     setVideoBlob(null);
     setVideoUrl(null);
-    
-    if (videoRef.current && stream) {
+    // Relancer la caméra si besoin
+    if (!stream) {
+      getCameraPermission();
+    } else if (videoRef.current && stream) {
       videoRef.current.srcObject = stream;
       videoRef.current.controls = false;
     }
@@ -127,8 +154,8 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
         {!permission ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
             <Video className="w-16 h-16 mb-4 text-blue-500" />
-            <p className="text-lg font-medium mb-4">Camera access is required</p>
-            <Button onClick={getCameraPermission}>Allow Camera Access</Button>
+            <p className="text-lg font-medium mb-4">L'accès à la caméra est requis</p>
+            <Button onClick={getCameraPermission}>Autoriser l'accès à la caméra</Button>
           </div>
         ) : (
           <video
@@ -158,17 +185,30 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
                 className="flex items-center"
               >
                 <Play className="mr-2 h-4 w-4" />
-                Start Recording
+                Démarrer l'enregistrement
               </Button>
             ) : (
-              <Button 
-                onClick={stopRecording}
-                variant="danger"
-                className="flex items-center"
-              >
-                <Square className="mr-2 h-4 w-4" />
-                Stop Recording
-              </Button>
+              <>
+                <Button 
+                  onClick={stopRecording}
+                  variant="danger"
+                  className="flex items-center"
+                >
+                  <Square className="mr-2 h-4 w-4" />
+                  Arrêter l'enregistrement
+                </Button>
+                {isPaused ? (
+                  <Button onClick={resumeRecording} className="flex items-center" variant="secondary">
+                    <Play className="mr-2 h-4 w-4" />
+                    Reprendre
+                  </Button>
+                ) : (
+                  <Button onClick={pauseRecording} className="flex items-center" variant="secondary">
+                    ||
+                    <span className="ml-2">Pause</span>
+                  </Button>
+                )}
+              </>
             )}
           </>
         ) : (
@@ -179,7 +219,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
               className="flex items-center"
             >
               <Play className="mr-2 h-4 w-4" />
-              Record Again
+              Réenregistrer
             </Button>
             
             <Button 
@@ -187,7 +227,7 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
               className="flex items-center"
             >
               <Save className="mr-2 h-4 w-4" />
-              Save Video
+              Enregistrer la vidéo
             </Button>
           </>
         )}

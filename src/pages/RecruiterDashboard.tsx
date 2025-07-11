@@ -235,21 +235,21 @@ const RecruiterDashboard: React.FC = () => {
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r flex flex-col py-8 px-4 space-y-2">
+      <aside className="w-56 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col py-8 px-4 space-y-2">
         <button
-          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'candidates' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'candidates' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setSidebarTab('candidates')}
         >
           <Users className="h-5 w-5 mr-2" /> Candidats
         </button>
         <button
-          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'questions' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'questions' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setSidebarTab('questions')}
         >
           <List className="h-5 w-5 mr-2" /> Questions
         </button>
         <button
-          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'users' ? 'bg-blue-100 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+          className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${sidebarTab === 'users' ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'}`}
           onClick={() => setSidebarTab('users')}
         >
           <UserPlus className="h-5 w-5 mr-2" /> Utilisateurs
@@ -257,14 +257,14 @@ const RecruiterDashboard: React.FC = () => {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-8 space-y-6">
+      <main className="flex-1 p-8 space-y-6 bg-gray-50 dark:bg-gray-900">
         {sidebarTab === 'questions' && (
           <Card className="mb-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-              <Plus className="h-5 w-5 mr-2 text-blue-500" /> Ajouter une question
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+              <Plus className="h-5 w-5 mr-2 text-blue-500 dark:text-blue-400" /> Ajouter une question
             </h3>
             <form onSubmit={handleAddQuestion} className="space-y-4">
-              {addQuestionError && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-md">{addQuestionError}</div>}
+              {addQuestionError && <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-2 rounded-md">{addQuestionError}</div>}
               <Input
                 label="Question text"
                 type="text"
@@ -284,12 +284,12 @@ const RecruiterDashboard: React.FC = () => {
             </form>
             {/* Liste des questions existantes */}
             <div className="mt-6">
-              <h4 className="font-medium text-gray-700 mb-2">Questions existantes</h4>
-              <ul className="list-disc pl-5 text-gray-800">
+              <h4 className="font-medium text-gray-700 dark:text-gray-300 mb-2">Questions existantes</h4>
+              <ul className="list-disc pl-5 text-gray-800 dark:text-gray-200">
                 {questions.map((q: any) => (
                   <li key={q.id}>{q.text}</li>
                 ))}
-                {questions.length === 0 && <li className="text-gray-400">Aucune question</li>}
+                {questions.length === 0 && <li className="text-gray-400 dark:text-gray-500">Aucune question</li>}
               </ul>
             </div>
           </Card>
@@ -298,31 +298,31 @@ const RecruiterDashboard: React.FC = () => {
         {sidebarTab === 'users' && (
           <Card className="mb-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-gray-900">Utilisateurs</h3>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">Utilisateurs</h3>
               <Button onClick={openAddUserModal} variant="primary" size="sm">Ajouter un utilisateur</Button>
             </div>
             {/* Liste des utilisateurs */}
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-800">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nom</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                   {users.length === 0 && (
                     <tr>
-                      <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">Aucun utilisateur</td>
+                      <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">Aucun utilisateur</td>
                     </tr>
                   )}
                   {users.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+                    <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{user.username}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{user.email}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{user.role}</td>
                       <td className="px-6 py-4 whitespace-nowrap flex gap-2">
                         <Button size="sm" variant="secondary" onClick={() => openEditUserModal(user)}>Éditer</Button>
                         <Button size="sm" variant="danger" onClick={() => handleDeleteUser(user.id)}>Supprimer</Button>
@@ -335,7 +335,7 @@ const RecruiterDashboard: React.FC = () => {
             {/* Modal d'ajout/édition utilisateur */}
             <Modal isOpen={showUserModal} onClose={closeUserModal} title={editUser ? 'Éditer utilisateur' : 'Ajouter un utilisateur'}>
               <form onSubmit={handleUserFormSubmit} className="space-y-4">
-                {userError && <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-2 rounded-md">{userError}</div>}
+                {userError && <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-2 rounded-md">{userError}</div>}
                 <Input
                   label="Username"
                   name="username"
@@ -377,7 +377,7 @@ const RecruiterDashboard: React.FC = () => {
                   value="Recruiter"
                   readOnly
                   disabled
-                  className="bg-gray-100 cursor-not-allowed"
+                  className="bg-gray-100 dark:bg-gray-700 cursor-not-allowed"
                 />
                 <Button type="submit" fullWidth isLoading={userLoading}>{editUser ? 'Enregistrer' : 'Ajouter'}</Button>
               </form>
@@ -389,33 +389,33 @@ const RecruiterDashboard: React.FC = () => {
           <>
             {/* Candidats complets */}
             <Card className="p-0 overflow-hidden mb-8">
-              <div className="border-b border-gray-200 px-6 py-4 bg-gray-50">
-                <h3 className="text-lg font-medium text-green-700 flex items-center">
-                  <Check className="h-5 w-5 mr-2 text-green-500" /> Candidats ayant tout soumis
+              <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                <h3 className="text-lg font-medium text-green-700 dark:text-green-400 flex items-center">
+                  <Check className="h-5 w-5 mr-2 text-green-500 dark:text-green-400" /> Candidats ayant tout soumis
                 </h3>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nom</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Statut</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                     {completeCandidates.length === 0 && (
                       <tr>
-                        <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">Aucun candidat complet</td>
+                        <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">Aucun candidat complet</td>
                       </tr>
                     )}
                     {completeCandidates.map((candidate) => (
-                      <tr key={candidate.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">{candidate.username}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{candidate.email}</td>
+                      <tr key={candidate.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{candidate.username}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{candidate.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Complet</span>
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300">Complet</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <Button size="sm" variant={selectedCandidate === candidate.id ? 'primary' : 'secondary'} onClick={() => setSelectedCandidate(candidate.id)}>
@@ -431,33 +431,33 @@ const RecruiterDashboard: React.FC = () => {
 
             {/* Candidats incomplets */}
             <Card className="p-0 overflow-hidden mb-8">
-              <div className="border-b border-gray-200 px-6 py-4 bg-gray-50">
-                <h3 className="text-lg font-medium text-yellow-700 flex items-center">
-                  <Users className="h-5 w-5 mr-2 text-yellow-500" /> Candidats incomplets (vidéo ou questionnaire manquant)
+              <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                <h3 className="text-lg font-medium text-yellow-700 dark:text-yellow-400 flex items-center">
+                  <Users className="h-5 w-5 mr-2 text-yellow-500 dark:text-yellow-400" /> Candidats incomplets (vidéo ou questionnaire manquant)
                 </h3>
               </div>
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nom</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Statut</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
                     {incompleteCandidates.length === 0 && (
                       <tr>
-                        <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500">Aucun candidat incomplet</td>
+                        <td colSpan={4} className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">Aucun candidat incomplet</td>
                       </tr>
                     )}
                     {incompleteCandidates.map((candidate) => (
-                      <tr key={candidate.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">{candidate.username}</td>
-                        <td className="px-6 py-4 whitespace-nowrap">{candidate.email}</td>
+                      <tr key={candidate.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{candidate.username}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{candidate.email}</td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Incomplet</span>
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300">Incomplet</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <Button size="sm" variant={selectedCandidate === candidate.id ? 'primary' : 'secondary'} onClick={() => setSelectedCandidate(candidate.id)}>
@@ -473,10 +473,10 @@ const RecruiterDashboard: React.FC = () => {
 
             {/* Affichage du détail du candidat sélectionné (inchangé) */}
             {selectedCandidateData && (
-              <div className="bg-white shadow rounded-lg overflow-hidden">
-                <div className="border-b border-gray-200">
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+                <div className="border-b border-gray-200 dark:border-gray-700">
                   <div className="px-6 py-4">
-                    <h3 className="text-lg font-medium text-gray-900">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">
                       {selectedCandidateData.username}'s Submission
                     </h3>
                   </div>
@@ -484,8 +484,8 @@ const RecruiterDashboard: React.FC = () => {
                     <button
                       className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
                         activeTab === 'video'
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                          : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                       }`}
                       onClick={() => setActiveTab('video')}
                       disabled={selectedCandidateData.videos.length === 0}
@@ -498,8 +498,8 @@ const RecruiterDashboard: React.FC = () => {
                     <button
                       className={`py-4 px-6 text-center border-b-2 font-medium text-sm ${
                         activeTab === 'answers'
-                          ? 'border-blue-500 text-blue-600'
-                          : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                          ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                          : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                       }`}
                       onClick={() => setActiveTab('answers')}
                       disabled={selectedCandidateData.answers.length === 0}
@@ -523,7 +523,7 @@ const RecruiterDashboard: React.FC = () => {
                           onDownload={() => handleDownloadVideo(selectedCandidateData.videos[0].url)}
                         />
                       ) : (
-                        <div className="text-center py-12 text-gray-500">
+                        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                           No video submissions yet
                         </div>
                       )}
@@ -532,13 +532,13 @@ const RecruiterDashboard: React.FC = () => {
                     <div className="space-y-6">
                       {selectedCandidateData.answers.length > 0 ? (
                         selectedCandidateData.answers.map((answer: any) => (
-                          <div key={answer.id} className="border border-gray-200 rounded-md p-4">
-                            <h4 className="font-medium text-gray-900 mb-2">{answer.questionText}</h4>
-                            <p className="text-gray-700 whitespace-pre-line">{answer.text}</p>
+                          <div key={answer.id} className="border border-gray-200 dark:border-gray-700 rounded-md p-4">
+                            <h4 className="font-medium text-gray-900 dark:text-gray-100 mb-2">{answer.questionText}</h4>
+                            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">{answer.text}</p>
                           </div>
                         ))
                       ) : (
-                        <div className="text-center py-12 text-gray-500">
+                        <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                           No answers submitted yet
                         </div>
                       )}

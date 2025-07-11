@@ -4,6 +4,7 @@ import AuthPageLayout from '../components/layout/AuthPageLayout';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { useAuth } from '../contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -21,9 +22,11 @@ const Login: React.FC = () => {
 
     try {
       await login(email, password);
+      toast.success('Connexion réussie !');
       navigate('/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      setError('E-mail ou mot de passe invalide');
+      toast.error('E-mail ou mot de passe invalide');
     } finally {
       setIsLoading(false);
     }
@@ -31,28 +34,34 @@ const Login: React.FC = () => {
 
   return (
     <AuthPageLayout>
-      <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Sign in to your account</h2>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2 text-center">Connexion à votre compte</h2>
       <form onSubmit={handleSubmit} className="space-y-5 mt-6">
         <Input
-          label="E-mail Address"
+          label="Adresse e-mail"
           type="email"
-          placeholder="you@email.com"
+          placeholder="vous@email.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
         />
         <Input
-          label="Password"
+          label="Mot de passe"
           type="password"
           placeholder="••••••••"
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
         />
-        {error && <div className="bg-red-100 text-red-700 px-3 py-2 rounded text-sm">{error}</div>}
+
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-2 rounded-md text-sm">
+            {error}
+          </div>
+        )}
+
         <div className="flex flex-col gap-3 mt-2">
           <Button type="submit" fullWidth isLoading={isLoading}>
-            Sign In
+            Se connecter
           </Button>
           <Button
             type="button"
@@ -60,25 +69,11 @@ const Login: React.FC = () => {
             fullWidth
             onClick={() => navigate('/register')}
           >
-            Sign Up
+            Créer un compte
           </Button>
         </div>
       </form>
-      <div className="mt-8 border-t border-gray-200 pt-4 w-full">
-        <h3 className="text-sm font-medium text-gray-500">Demo Accounts</h3>
-        <div className="mt-2 grid grid-cols-1 gap-3">
-          <div className="rounded-md bg-gray-50 p-3">
-            <p className="text-xs font-medium text-gray-700">Recruiter:</p>
-            <p className="text-xs text-gray-500">Email: recruiter@example.com</p>
-            <p className="text-xs text-gray-500">Password: password123</p>
-          </div>
-          <div className="rounded-md bg-gray-50 p-3">
-            <p className="text-xs font-medium text-gray-700">Candidate:</p>
-            <p className="text-xs text-gray-500">Email: candidate@example.com</p>
-            <p className="text-xs text-gray-500">Password: password123</p>
-          </div>
-        </div>
-      </div>
+
     </AuthPageLayout>
   );
 };

@@ -1,14 +1,26 @@
 import React from 'react';
+import ThemeToggle from '../ThemeToggle';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface AuthPageLayoutProps {
   children: React.ReactNode;
 }
 
 const AuthPageLayout: React.FC<AuthPageLayoutProps> = ({ children }) => {
+  const { theme } = useTheme();
+  
   return (
-    <div className="min-h-screen flex flex-col md:flex-row">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 dark:bg-gray-900">
+      {/* Debug info */}
+      <div className="fixed top-2 left-2 z-50 bg-black text-white px-2 py-1 rounded text-xs">
+        Theme: {theme}
+      </div>
+      
       {/* Left section */}
       <div className="md:w-1/2 flex flex-col justify-between bg-gradient-to-br from-blue-900 via-blue-700 to-blue-400 text-white p-8 relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <div>
           <div className="flex items-center gap-4 mt-8 md:mt-0">
             {/* SVG rocket icon, larger size */}
@@ -24,20 +36,22 @@ const AuthPageLayout: React.FC<AuthPageLayoutProps> = ({ children }) => {
                 </g>
               </svg>
             </span>
-            <span className="text-3xl font-bold tracking-tight">Welcome to Spacer</span>
+            <span className="text-3xl font-bold tracking-tight">Bienvenue sur ProScreen</span>
           </div>
           <p className="mt-8 text-lg max-w-md opacity-90">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi eu consectetur.
+            Plateforme d'évaluation vidéo et questions pour candidats et recruteurs.
           </p>
         </div>
         <div className="flex flex-col gap-2 mt-12 mb-2">
-          <a href="#" className="text-sm underline opacity-80 hover:opacity-100">CREATOR HERE</a>
-          <a href="#" className="text-sm underline opacity-80 hover:opacity-100">DESIGNER HERE</a>
+
         </div>
       </div>
-      {/* Right section (form) */}
-      <div className="md:w-1/2 flex items-center justify-center bg-white py-12 px-6 min-h-screen">
-        <div className="w-full max-w-md">{children}</div>
+
+      {/* Right section */}
+      <div className="md:w-1/2 flex items-center justify-center p-8 bg-white dark:bg-gray-800">
+        <div className="w-full max-w-md">
+          {children}
+        </div>
       </div>
     </div>
   );

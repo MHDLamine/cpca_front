@@ -24,11 +24,11 @@ const Dashboard: React.FC = () => {
   return (
     <DashboardLayout>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Welcome, {user?.username}!</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Bienvenue, {user?.username} !</h1>
         <p className="mt-1 text-sm text-gray-500">
           {user?.role === 'recruiter'
-            ? 'Manage candidates and review their assessments'
-            : 'Record your video and answer assessment questions'}
+            ? 'Gérez les candidats et évaluez leurs réponses'
+            : 'Enregistrez votre vidéo et répondez aux questions d\'évaluation'}
         </p>
       </div>
 
