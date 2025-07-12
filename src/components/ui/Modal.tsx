@@ -5,13 +5,16 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   children: React.ReactNode;
+  className?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, className }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full max-w-md mx-4 relative border border-gray-200 dark:border-gray-700">
+      <div
+        className={`bg-white dark:bg-gray-800 rounded-lg shadow-lg w-full mx-4 relative border border-gray-200 dark:border-gray-700 max-h-[90vh] overflow-y-auto ${className ? className : 'max-w-md'}`}
+      >
         <button
           className="absolute top-2 right-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
           onClick={onClose}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Video, Square, Play, Save } from 'lucide-react';
 import Button from '../ui/Button';
+import { showAlert } from '../../utils/swal';
 
 interface VideoRecorderProps {
   onVideoSaved: (videoBlob: Blob, videoUrl: string) => void;
@@ -35,7 +36,11 @@ const VideoRecorder: React.FC<VideoRecorderProps> = ({ onVideoSaved }) => {
       }
     } catch (err) {
       console.error('Error accessing camera:', err);
-      alert('Unable to access your camera. Please check permissions and try again.');
+      showAlert({
+        title: 'Erreur',
+        text: "Impossible d'accéder à votre caméra. Veuillez vérifier les permissions et réessayer.",
+        icon: 'error',
+      });
     }
   };
 
